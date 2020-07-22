@@ -1,0 +1,11 @@
+textarea {
+    min-height: 400px;
+}
+
+.body{
+	background-image: url("https://images.pexels.com/photos/1381679/pexels-photo-1381679.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+}
+.btn-secondary{
+	background-color: #8A2BE2;
+	border-radius: 8px;
+}

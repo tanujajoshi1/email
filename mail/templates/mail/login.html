@@ -1,0 +1,44 @@
+{% extends "mail/layout.html" %}
+
+{% block body %}
+
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+
+<div class="col-md-10 mb-4">  
+                    <div class="card" style="margin-left: 30%">
+                        <div class="card-body">                           
+                            <form action="{%url 'login'%}" method='POST'>
+                                {% csrf_token %}
+                                <h3 class="text-center purple-text font-bold py-8"><strong>Log In Here</strong></h3>
+                               
+                                <div class="md-form">
+                                    <i class="fa fa-envelope prefix grey-text"></i>
+                                    <input type="email" id="email" name="email" placeholder="Your email" class="form-control">                                
+                                </div>
+
+                                <div class="md-form">
+                                    <i class="fa fa-key prefix grey-text"></i>
+                                    <input type="password" id=" password" name="password" placeholder="Your password" class="form-control">                  
+                                </div>
+
+                                <div class="text-center py-4">
+                                    <button  type="submit" class="btn btn-outline-purple">Login </button>
+                                </div>
+                            </form>
+                           <center>Don't have an account? <a href="{% url 'register' %}">Register here.</a></center>
+                        </div>
+                    </div>                
+                </div>
+
+
+
+
+   
+
+    
+
+{% endblock %}
