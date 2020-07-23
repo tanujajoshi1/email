@@ -5,11 +5,19 @@ textarea {
 body{
 	
 	background-color: black;
+	background-image: url("https://images.unsplash.com/photo-1586114728926-fc10c981b7d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80");
+    background-repeat: no-repeat;
+    margin-left: 40%;
 }
-.btn-secondary{
-	background-color: #8A2BE2;
-	border-radius: 8px;
+
+
+h3{
+	margin-left: 2%;
+	font-family: "Sofia";
+	font-weight: bold;
+
 }
+
 
 .card>h2{
     font-weight: bold;
@@ -21,10 +29,53 @@ body{
 }
 .card>.card{
 	padding:30px;
-	border:1px solid purple;
+	border:1px solid black ;
+}
+.card{
+	border:1px solid #7E57C2 ;
 }
 
 #span{
 	font-family: Arial;
 	color: black;
+}
+.btn-outline-dark:active{	
+	border-radius: 8px;
+	background-color: grey;
+
+}
+
+.fileinput-button {
+    float: left;
+    margin-right: 4px;
+    overflow: hidden;
+    position: relative;
+}
+.fileinput-button input {
+    cursor: pointer;
+    direction: ltr;
+    font-size: 23px;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(-300px, 0px) scale(4);
+}
+.fileupload-buttonbar .btn, .fileupload-buttonbar .toggle {
+    margin-bottom: 5px;
+}
+.files .progress {
+    width: 200px;
+}
+.fileupload-processing .fileupload-loading {
+    display: block;
+}
+* html .fileinput-button {
+    line-height: 24px;
+    margin: 1px -3px 0 0;
+}
+* + html .fileinput-button {
+    margin: 1px 0 0;
+    padding: 2px 15px;
 }

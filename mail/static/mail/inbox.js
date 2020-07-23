@@ -48,8 +48,9 @@ function compose_email() {
 
   submit.disabled = true;
   document.onkeyup = () => {
-      if (recipients.value.length>0 && subject.value.length>0 && body.value.length>0) {
-        submit.disabled = false;
+      if (recipients.value.length>0 && body.value.length>0) {        
+          submit.disabled = false;
+                
       }
       else {
         submit.disabled = true;
@@ -83,7 +84,7 @@ function reply_mail(email) {
   compose_email();
   document.querySelector('#compose-recipients').value = `${email.sender}`;
   document.querySelector('#compose-subject').value = `${subject}`;
-  document.querySelector('#compose-body').value = `\nOn ${email.timestamp} ${email.sender} wrote:\n\n ${email.body}`;
+  document.querySelector('#compose-body').value = `\nReply to ${email.sender} `;
 }
 
 function load_mailbox(mailbox) {
@@ -94,21 +95,31 @@ function load_mailbox(mailbox) {
   document.querySelector('#view-mail').style.display = 'none';
 
   // Show the mailbox name
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  document.querySelector('#emails-view').innerHTML = `<h3>  ${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
   fetch(`/emails/${mailbox}`)
   .then(response => response.json())
   .then(emails => {
     emails.forEach(item => {
+      var count=0;
       const element = document.createElement('div');
       if (item.read===true) {
-        element.setAttribute('class', "Email-Container-Read")
-      }
-      else {
-        element.setAttribute('class', "Email-Container-NotRead")
-      }
-      element.innerHTML = `<div class="container" style="max-width:99%;"><div class="card"><div class="col-sm"><b> ${item.subject} </b></div><div class="col-sm"><p>From: ${item.sender} - ${item.timestamp}</p></div></div></div><br/>`;
+        element.setAttribute('class', "Email-Container-Read");       
+        document.querySelector("#count").innerHTML=count;
+           element.innerHTML = `<div class="container" style="max-width:99%;"><div class="card" style="padding:10px;"><div class="col-sm"><b> ${item.subject} </b></div><div class="col-sm"><p>From: ${item.sender} - ${item.timestamp}</p></div></div></div><br/>`;
       element.addEventListener('click', () => view_mail(item.id,mailbox));
       document.querySelector('#emails-view').append(element);
+      count=count-1;
+      }
+      else {
+        element.setAttribute('class', "Email-Container-NotRead");
+        count=count+1;
+        document.querySelector("#count").innerHTML=count;
+      element.innerHTML = `<div class="container" style="max-width:99%;"><div class="card" style="padding:10px; background-color:#EDE7F6 ;"><div class="col-sm"><b> ${item.subject} </b></div><div class="col-sm"><p>From: ${item.sender} - ${item.timestamp}</p></div></div></div><br/>`;
+      element.addEventListener('click', () => view_mail(item.id,mailbox));
+      document.querySelector('#emails-view').append(element);
+      count=count-1;
+      }
+   
       }
     );
   });
@@ -130,7 +141,7 @@ function view_mail(id,mailbox) {
   fetch(`/emails/${id}`)
   .then(response => response.json())
   .then(email => {
-    document.querySelector('#view-mail').innerHTML = `<div class="card" style="padding:30px;border:0.5px solid black;"><h2>${email.subject}</h2>
+    document.querySelector('#view-mail').innerHTML = `<div class="card" style="padding:30px;"><h2>${email.subject}</h2>
     <div class="card" id="#card">
     <h4>From: ${email.sender}</h4><h4>
     To: ${email.recipients}</h4><small>${email.timestamp}</small></div><br>
@@ -139,8 +150,8 @@ function view_mail(id,mailbox) {
     if (!(mailbox==="sent")){
       const element = document.createElement('button');
       if (email.archived===false){
-        element.setAttribute('class', "btn btn-sm btn-success");
-        element.innerHTML = "Archive";
+        element.setAttribute('class', "btn btn-sm btn-success");      
+        element.innerHTML = "Archive <i class='fa fa-plus'></i>";
         element.addEventListener('click', () => archive(`${email.id}`));
       }
       else{
@@ -153,7 +164,7 @@ function view_mail(id,mailbox) {
 
     const newelement = document.createElement('button');
     newelement.setAttribute('class', "btn btn-sm btn-primary");
-    newelement.innerHTML = "Reply";
+    newelement.innerHTML = "Reply  <i class='fa fa-reply'></i>";
     newelement.addEventListener('click', () => reply_mail( email ));
     document.querySelector('#view-mail').append(newelement);
   });
