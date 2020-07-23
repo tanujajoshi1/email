@@ -3,11 +3,7 @@
 
 {% block body %}
 
-<div class="card outline-secondary "style="width:800px;height: 120px;">
-  <div class="card-body">
-    <h4 style="font-family: sans-serif;color:#512E5F  ">{{ request.user.email }} <i class="fa fa-user-circle fa-2x "></i></h4>
-  </div>
-</div>
+
 
 
     <br/>
@@ -24,10 +20,10 @@
     <div id="view-mail"></div>
     <div id="compose-view">
 
-        <h3 style="text-align: center;font-weight: bold">New Message <i class="fa fa-plus"></i></h3>
+        <h5 style="text-align: center;font-weight: bold">New Message <i class="fa fa-plus"></i></h5>
 
 
-        <form id="compose-form">
+        <form id="compose-form" >
             <div class="form-group">
                 From: <input disabled class="form-control" id="compose-sender" value="{{ request.user.email }}">
             </div>
@@ -47,5 +43,5 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'mail/inbox.js' %}"></script>    
+    <script type="text/javascript" src="{% static 'mail/inbox.js' %}"></script>    
 {% endblock %}

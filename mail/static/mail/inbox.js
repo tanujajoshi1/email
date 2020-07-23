@@ -106,7 +106,7 @@ function load_mailbox(mailbox) {
       else {
         element.setAttribute('class', "Email-Container-NotRead")
       }
-      element.innerHTML = `<div class="container" style="max-width:99%;"><div class="row"><div class="col-sm"><b> ${item.subject} </b></div><div class="col-sm"><p>From: ${item.sender} - ${item.timestamp}</p></div></div></div>`;
+      element.innerHTML = `<div class="container" style="max-width:99%;"><div class="card"><div class="col-sm"><b> ${item.subject} </b></div><div class="col-sm"><p>From: ${item.sender} - ${item.timestamp}</p></div></div></div><br/>`;
       element.addEventListener('click', () => view_mail(item.id,mailbox));
       document.querySelector('#emails-view').append(element);
       }
@@ -130,16 +130,21 @@ function view_mail(id,mailbox) {
   fetch(`/emails/${id}`)
   .then(response => response.json())
   .then(email => {
-    document.querySelector('#view-mail').innerHTML = `<h2>${email.subject}</h2><h4>Sender: ${email.sender}</h4><h4>Recipients: ${email.recipients}</h4><h6>${email.timestamp}</h6><br><div class=divider></div><br><span style="white-space: pre-line">${email.body}</span><div class=divider></div><br>`;
+    document.querySelector('#view-mail').innerHTML = `<div class="card" style="padding:30px;border:0.5px solid black;"><h2>${email.subject}</h2>
+    <div class="card" id="#card">
+    <h4>From: ${email.sender}</h4><h4>
+    To: ${email.recipients}</h4><small>${email.timestamp}</small></div><br>
+    <div class=divider></div><br><span id="span">${email.body}</span>
+    <div class=divider></div><br></card>`;
     if (!(mailbox==="sent")){
       const element = document.createElement('button');
       if (email.archived===false){
-        element.setAttribute('class', "btn btn-sm btn-outline-success");
+        element.setAttribute('class', "btn btn-sm btn-success");
         element.innerHTML = "Archive";
         element.addEventListener('click', () => archive(`${email.id}`));
       }
       else{
-        element.setAttribute('class', "btn btn-sm btn-outline-danger");
+        element.setAttribute('class', "btn btn-sm btn-danger");
         element.innerHTML = "Unarchive";
         element.addEventListener('click', () => unarchive(`${email.id}`));
       }
@@ -147,7 +152,7 @@ function view_mail(id,mailbox) {
     }
 
     const newelement = document.createElement('button');
-    newelement.setAttribute('class', "btn btn-sm btn-outline-primary");
+    newelement.setAttribute('class', "btn btn-sm btn-primary");
     newelement.innerHTML = "Reply";
     newelement.addEventListener('click', () => reply_mail( email ));
     document.querySelector('#view-mail').append(newelement);
