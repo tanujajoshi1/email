@@ -7,7 +7,7 @@
     <br/>
     <br/>
 
-    <button class="btn btn-sm btn-outline-dark active" id="inbox">Inbox <span class="badge badge-danger ml-10" id=count>0</span></button>
+    <button class="btn btn-sm btn-outline-dark active" id="inbox">Inbox <span class="badge badge-secondary ml-10" id=count>0</span></button>
     <button class="btn btn-sm btn-outline-dark" id="compose">Compose <i class="fa fa-plus"></i></button>
     <button class="btn btn-sm btn-outline-dark" id="sent">Sent <i class="fa fa-paper-plane"></i></button>
     <button class="btn btn-sm btn-outline-dark" id="archived">Archived <i class="fa fa-archive"></i></button>
@@ -21,7 +21,7 @@
        
 
         
-        <form id="compose-form" >
+        <form id="compose-form"  >
              <h5 style="font-weight: bold;color:#7E57C2 ;text-align: center; ">New Message </h5>
             <div class="form-group row">
                <label for="compose-sender" class="col-sm-2 col-form-label" >From  </label> 
@@ -44,11 +44,7 @@
             <div class="form-group row">
              <label for="compose-body" class="col-sm-2 col-form-label"> </label>
             <button type="submit" id="send-form" class="btn btn-sm btn-primary">Send <i class="fa fa-paper-plane"></i></button>
-            <span class=" btn btn-sm btn green fileinput-button">
-            
-            <span>Attachment <i class="fa fa-paperclip fa fa-white"></i></span>
-            <input type="file" name="files[]" multiple="">
-            </span>            
+                       
           
             </div>
         </form>

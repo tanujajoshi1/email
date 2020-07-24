@@ -8,16 +8,23 @@ body{
 	background-image: url("https://images.unsplash.com/photo-1586114728926-fc10c981b7d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80");
     background-repeat: no-repeat;
     margin-left: 40%;
-}
+    background-size: 100% 100%;
+    background-attachment: fixed;
 
+}
+.container{
+	float:right;
+}
 
 h3{
 	margin-left: 2%;
 	font-family: "Sofia";
 	font-weight: bold;
-
+    color:#7E57C2;
 }
-
+#count{
+	font-size: 15px;
+}
 
 .card>h2{
     font-weight: bold;
@@ -45,37 +52,19 @@ h3{
 
 }
 
-.fileinput-button {
-    float: left;
-    margin-right: 4px;
-    overflow: hidden;
-    position: relative;
+
+   
+  @media screen and (max-width: 760px) {
+    nav>i.heading{
+      font-size: 5px; 
+      
+    }
 }
-.fileinput-button input {
-    cursor: pointer;
-    direction: ltr;
-    font-size: 23px;
-    margin: 0;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transform: translate(-300px, 0px) scale(4);
+
+  @media screen and (max-width: 600px) {
+    nav>h5{
+      font-size: 15px;
+      
+    }
 }
-.fileupload-buttonbar .btn, .fileupload-buttonbar .toggle {
-    margin-bottom: 5px;
-}
-.files .progress {
-    width: 200px;
-}
-.fileupload-processing .fileupload-loading {
-    display: block;
-}
-* html .fileinput-button {
-    line-height: 24px;
-    margin: 1px -3px 0 0;
-}
-* + html .fileinput-button {
-    margin: 1px 0 0;
-    padding: 2px 15px;
-}
+
