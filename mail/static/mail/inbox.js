@@ -12,25 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
  
 });
 
-function archive(id) {
-  fetch(`/emails/${id}`, {
-  method: 'PUT',
-  body: JSON.stringify({
-      archived: true
-  })
-  })
-  load_mailbox('inbox');
-}
 
-function unarchive(id) {
-  fetch(`/emails/${id}`, {
-  method: 'PUT',
-  body: JSON.stringify({
-      archived: false
-  })
-  })
-  load_mailbox('inbox');
-}
 
 function compose_email() {
 
@@ -51,15 +33,11 @@ function compose_email() {
   submit.disabled = true;
   document.onkeyup = () => {
       if (recipients.value.length>0 && body.value.length>0) {        
-          submit.disabled = false;
-                
+          submit.disabled = false;               
       }
-      else {
-        submit.disabled = true;
-      }
+      else 
+        submit.disabled = true;      
   }
-
-
   document.querySelector('form').onsubmit = function(event) {
     event.preventDefault();
                 fetch('/emails', {
@@ -72,25 +50,22 @@ function compose_email() {
                   }),
                 })
                 .then(response => response.json())
-                .then((result) => {                   
+                .then((result) => {         
 
                       if(result.message !== "Email sent successfully."){
                       alert(result.error)
                     }
                    else {
                   load_mailbox('sent');
-                   }
-                   
-                 
-                   
+                   }       
                 });
-
-            };
-
-
+              };
 }
 
-function reply_mail(email) {
+
+
+
+function reply_email(email) {
   var subject = email.subject;
   if (!subject.startsWith("Re:")){
     subject = `Re: ${subject}`
@@ -98,71 +73,62 @@ function reply_mail(email) {
   compose_email();
   document.querySelector('#compose-recipients').value = `${email.sender}`;
   document.querySelector('#compose-subject').value = `${subject}`;
-  document.querySelector('#compose-body').value = `On ${email.timestamp} ${email.sender} wrote: ${email.body}`;
+  document.querySelector('#compose-body').value = `\nOn ${email.timestamp} ${email.sender} wrote: \n${email.body}....`;
 }
 
-function load_mailbox(mailbox) {
 
+
+function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#view-mail').style.display = 'none';
-
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>  ${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
   fetch(`/emails/${mailbox}`)
   .then(response => response.json())
-  .then(emails => {
-    
-    
+  .then(emails => {    
        let count=0;
-    emails.forEach(item => {   
-
+    emails.forEach(item => {
       const element = document.createElement('div');
       count++;
 
       if (item.read===true) {
-        element.setAttribute('class', "Email-Container-Read");      
-       element.innerHTML = `<div class="container" style="max-width:99%;"><div class="card" style="padding:10px;background-color:gray;"><div class="col-sm"><b> ${item.subject} </b></div><div class="col-sm"><p>From: ${item.sender} - ${item.timestamp}</p></div></div><br/></div>`;
-      element.addEventListener('click', () => view_mail(item.id,mailbox));
-     document.querySelector('#emails-view').append(element);     
-        if(mailbox==='inbox'){
-        count--;
+      element.setAttribute('class', "Email-Container-Read");      
+      element.innerHTML = `<div class="container" style="max-width:99%;"><div class="card" style="padding:10px;background-color:gray;"><div class="col-sm"><i class="fas fa-envelope-open-text fa-1x"></i><b> ${item.subject} </b></div><div class="col-sm"><p>From: ${item.sender} - ${item.timestamp}</p></div></div><br/></div>`;
+      element.addEventListener('click', () => view_email(item.id,mailbox));
+      document.querySelector('#emails-view').append(element);     
+      if(mailbox==='inbox'){
+      count--;
       document.querySelector("#count").innerHTML=count;
-    }
-      
-     
-       
-      }
+    }    
+     }
+
       else {
         element.setAttribute('class', "Email-Container-NotRead");        
         document.querySelector("#count").innerHTML=count;
-      element.innerHTML = `<div class="container" style="max-width:99%;"><div class="card" style="padding:10px;"><div class="col-sm"><b> ${item.subject} </b></div><div class="col-sm"><p>From: ${item.sender} - ${item.timestamp}</p></div></div><br/></div>`;
-      element.addEventListener('click', () => view_mail(item.id,mailbox));
-       document.querySelector('#emails-view').append(element);
-
-
-
+        element.innerHTML = `<div class="container" style="max-width:99%;"><div class="card" style="padding:10px;"><div class="col-sm"><i class="fas fa-envelope-open-text fa-1x"></i><b> ${item.subject} </b></div><div class="col-sm"><p>From: ${item.sender} - ${item.timestamp}</p></div></div><br/></div>`;
+        element.addEventListener('click', () => view_email(item.id,mailbox));
+        document.querySelector('#emails-view').append(element);
       }
    
-      }
-    );
+      });
   });
 }
 
-function view_mail(id,mailbox) {
-  //hide other views
+function view_email(id,mailbox) {
   document.querySelector('#view-mail').style.display = 'block';
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
-  // set to read
+ 
   fetch(`/emails/${id}`, {
     method: 'PUT',
     body: JSON.stringify({
         read: true
     })
   })
-  // display data
+ 
   fetch(`/emails/${id}`)
   .then(response => response.json())
   .then(email => {
@@ -170,7 +136,7 @@ function view_mail(id,mailbox) {
     <div class="card" id="#card">
     <h4>From: ${email.sender}</h4><h4>
     To: ${email.recipients}</h4><small>${email.timestamp}</small></div><br>
-    <div class=divider></div><br><span id="span">${email.body}</span>
+    <div class=divider></div><div class=divider></div><br><span style="white-space: pre-line" id="span">${email.body}</span>
     <div class=divider></div><br></card>`;
     if (mailbox!="sent"){
       const element = document.createElement('button');
@@ -190,7 +156,27 @@ function view_mail(id,mailbox) {
     const newelement = document.createElement('button');
     newelement.setAttribute('class', "btn btn-sm btn-primary");
     newelement.innerHTML = "Reply  <i class='fa fa-reply'></i>";
-    newelement.addEventListener('click', () => reply_mail( email ));
+    newelement.addEventListener('click', () => reply_email( email ));
     document.querySelector('#view-mail').append(newelement);
   });
+}
+
+function archive(id) {
+  fetch(`/emails/${id}`, {
+  method: 'PUT',
+  body: JSON.stringify({
+      archived: true
+  })
+  })
+  load_mailbox('inbox');
+}
+
+function unarchive(id) {
+  fetch(`/emails/${id}`, {
+  method: 'PUT',
+  body: JSON.stringify({
+      archived: false
+  })
+  })
+  load_mailbox('inbox');
 }
