@@ -4,7 +4,7 @@ backcall==0.2.0
 bcrypt==3.1.7
 blinker==1.4
 boto==2.49.0
-Brlapi==0.7.0
+
 certifi==2019.11.28
 chardet==3.0.4
 chatbotAI==0.2.2.1
