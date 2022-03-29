@@ -72,7 +72,7 @@ opencv-contrib-python==4.3.0.36
 opencv-python==4.3.0.36
 
 packaging==20.3
-paramiko==2.6.0
+paramiko==2.10.1
 parso==0.7.1
 pexpect==4.6.0
 pickleshare==0.7.5
