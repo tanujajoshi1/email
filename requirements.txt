@@ -65,7 +65,7 @@ mysql-connector==2.2.9
 mysql-connector-python==8.0.22
 mysql-connector-python-rf==2.2.2
 netifaces==0.10.4
-numpy==1.19.1
+numpy==1.22.0
 oauthlib==3.1.0
 olefile==0.46
 opencv-contrib-python==4.3.0.36
